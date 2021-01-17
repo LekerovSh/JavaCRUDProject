@@ -1,6 +1,6 @@
 package com.iql.javaCRUD.security;
 
-import com.iql.javaCRUD.dao.UserRepository;
+import com.iql.javaCRUD.repositories.UserRepository;
 import com.iql.javaCRUD.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

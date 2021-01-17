@@ -1,6 +1,7 @@
-package com.iql.javaCRUD;
+package com.iql.javaCRUD.services;
 
-import com.iql.javaCRUD.dao.UserRepository;
+import com.iql.javaCRUD.DTO.UserDTO;
+import com.iql.javaCRUD.repositories.UserRepository;
 import com.iql.javaCRUD.handler.CustomException;
 import com.iql.javaCRUD.models.User;
 import com.iql.javaCRUD.security.JwtTokenProvider;
@@ -13,6 +14,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -42,25 +46,30 @@ public class UserService {
     @Transactional
     public String signin(String email, String password) {
         try {
+//            System.out.println("in signin service method");
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
             return jwtTokenProvider.createToken(email);
         } catch (AuthenticationException e) {
-            throw new CustomException("Invalid email/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+//            System.out.println("in signin service exception");
+            throw new CustomException("Invalid email/password supplied", HttpStatus.FORBIDDEN);
         }
     }
 
     @Transactional
     public ResponseEntity changeEmail(String emailOld, String emailNew) {
         try {
-            System.out.println("change email");
             User user = userRepository.findByEmail(emailOld);
-            System.out.println("GET EMAIL: " + user.getEmail());
             user.setEmail(emailNew);
             userRepository.save(user);
-
             return new ResponseEntity(HttpStatus.OK);
         } catch (AuthenticationException e) {
             throw new CustomException("Email not Found", HttpStatus.NOT_FOUND);
         }
     }
+
+    @Transactional
+    public void delete(String email) {
+        userRepository.deleteByEmail(email);
+    }
+
 }

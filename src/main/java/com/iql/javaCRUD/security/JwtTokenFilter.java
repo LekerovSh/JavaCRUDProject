@@ -29,6 +29,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             if (token != null && jwtTokenProvider.validateToken(token)) {
                 Authentication auth = jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(auth);
+                httpServletRequest.setAttribute("user_email", jwtTokenProvider.getEmail(token));
             }
         } catch (RuntimeException ex) {
             //this is very important, since it guarantees the user is not authenticated at all

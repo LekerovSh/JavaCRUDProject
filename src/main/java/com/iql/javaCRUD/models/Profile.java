@@ -2,6 +2,8 @@ package com.iql.javaCRUD.models;
 
 import javax.persistence.*;
 
+@Entity
+@Table(name = "PROFILES")
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,7 +14,6 @@ public class Profile {
 
     private Double cash = 0.0;
 
-    @OneToOne(targetEntity = User.class)
     @Column(name = "user_email", nullable = false)
     private String userEmail;
 }

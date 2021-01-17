@@ -1,6 +1,6 @@
 package com.iql.javaCRUD;
 
-import com.iql.javaCRUD.dao.UserRepository;
+import com.iql.javaCRUD.repositories.UserRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;

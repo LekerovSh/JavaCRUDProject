@@ -1,15 +1,19 @@
 package com.iql.javaCRUD.DTO;
 
+import com.iql.javaCRUD.models.Phone;
 import com.iql.javaCRUD.models.User;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.Set;
 
 public class UserDTO {
-    @NotNull
     private String email;
+    private Set<Phone> phones;
 
-    @NotNull
-    private String password;
+    public UserDTO(User user) {
+        this.email = user.getEmail();
+    }
 
     public String getEmail() {
         return email;
@@ -19,15 +23,11 @@ public class UserDTO {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public Set<Phone> getPhones() {
+        return phones;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public User toUser() {
-        return new User(this.email, this.password);
+    public void setPhones(Set<Phone> phones) {
+        this.phones = phones;
     }
 }

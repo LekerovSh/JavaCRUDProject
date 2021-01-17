@@ -10,12 +10,12 @@ create table PROFILES(
     age int,
     cash double precision,
     user_email varchar(30) not null,
-    FOREIGN KEY (user_email) references USERS(email)
+    FOREIGN KEY (user_email) references USERS(email) on delete CASCADE on update CASCADE
 );
 
 create table PHONES(
      id bigserial primary key,
      user_email varchar(30) unique,
      value varchar(12) not null,
-     FOREIGN KEY (user_email) references USERS(email)
+     FOREIGN KEY (user_email) references USERS(email) on delete CASCADE on update CASCADE
 );

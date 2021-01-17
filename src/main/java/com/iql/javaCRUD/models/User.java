@@ -1,6 +1,7 @@
 package com.iql.javaCRUD.models;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "USERS")
@@ -64,4 +65,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

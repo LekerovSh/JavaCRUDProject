@@ -1,8 +1,9 @@
 package com.iql.javaCRUD.controllers;
 
+import com.iql.javaCRUD.DTO.UserDTO;
 import com.iql.javaCRUD.DTO.UserWithNameDTO;
-import com.iql.javaCRUD.UserService;
-import com.iql.javaCRUD.dao.UserRepository;
+import com.iql.javaCRUD.services.UserService;
+import com.iql.javaCRUD.repositories.UserRepository;
 import com.iql.javaCRUD.models.User;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<User> listUsers() {
-        return userRepository.findAll();
+    public void listUsers() {
     }
 
     @GetMapping("/say")
@@ -48,22 +48,26 @@ public class UserController {
 
     @PostMapping("/signin")
     @ApiOperation(value = "${UserController.signin}")
-    @ApiResponses(value = {//
-            @ApiResponse(code = 400, message = "Something went wrong"), //
-            @ApiResponse(code = 422, message = "Invalid username/password supplied")})
-    public String login(
+    public String signin(
                         @RequestParam String email,
                         @RequestParam String password) {
         return userService.signin(email, password);
     }
 
     @ApiImplicitParam(name = "X-Auth-Token", value = "Access Token", required = true, paramType = "header")
-    @PostMapping("/change-email")
+    @PatchMapping("/change-email")
     public ResponseEntity updateEmail(
                         @RequestParam String emailOld,
                         @RequestParam String emailNew) {
         System.out.println("update email");
         return userService.changeEmail(emailOld, emailNew);
+    }
+
+    @ApiImplicitParam(name = "X-Auth-Token", value = "Access Token", required = true, paramType = "header")
+    @DeleteMapping(value = "/{email}")
+    public String delete(@ApiParam("Email") @PathVariable String email) {
+        userService.delete(email);
+        return email;
     }
 
 }
