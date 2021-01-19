@@ -34,14 +34,4 @@ public class ProfileService {
         }
     }
 
-//    @Scheduled(fixedRate = 20000)
-//    public void increaseCash() {
-//        List<Profile> profileList = profileRepository.findByIncGreaterThan(0);
-//        for (Profile profile: profileList) {
-//            profile.setInc(profile.getInc() - 1);
-//            profile.setCash(profile.getCash() * 1.1);
-//        }
-//        profileRepository.saveAll(profileList);
-//    }
-
 }

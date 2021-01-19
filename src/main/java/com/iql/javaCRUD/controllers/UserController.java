@@ -32,9 +32,11 @@ public class UserController {
     }
 
     // TODO: 19.01.21  DONE
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path="/signup")
-    @ApiOperation(value = "Create User", response = ResponseEntity.class)
-    public ResponseEntity signup(@ApiParam("Signup User") @Valid @RequestBody UserDTO userDTO) {
+    //consumes = MediaType.APPLICATION_JSON_VALUE, path=
+    @PostMapping("/signup")
+//    @ApiOperation(value = "Create User", response = ResponseEntity.class)
+    public ResponseEntity signup(@RequestBody UserDTO userDTO) {
+        System.out.println("CHLEN");
         return userService.signup(userDTO.toUser());
     }
 

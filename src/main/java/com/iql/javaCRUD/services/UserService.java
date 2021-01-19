@@ -116,4 +116,9 @@ public class UserService {
         return userRepository.findByEmail(phone.getUserEmail()).getName();
     }
 
+    @Transactional(readOnly = true)
+    public Long countAllUsers() {
+        return userRepository.count();
+    }
+
 }
