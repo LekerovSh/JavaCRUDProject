@@ -1,18 +1,24 @@
 package com.iql.javaCRUD.DTO;
 
-import com.iql.javaCRUD.models.Phone;
 import com.iql.javaCRUD.models.User;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Set;
 
 public class UserDTO {
+    @NotNull
+    private String name;
+    @NotNull
     private String email;
-    private Set<Phone> phones;
+    @NotNull
+    private String password;
 
-    public UserDTO(User user) {
-        this.email = user.getEmail();
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -23,11 +29,16 @@ public class UserDTO {
         this.email = email;
     }
 
-    public Set<Phone> getPhones() {
-        return phones;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPhones(Set<Phone> phones) {
-        this.phones = phones;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public User toUser() {
+        return new User(this.name, this.email, this.password);
     }
 }
+

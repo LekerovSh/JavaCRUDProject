@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PhoneRepository extends JpaRepository<Phone, Long> {
 
+    Phone findByValue(String phone);
     boolean existsByValue(String phone);
-
     void deleteByValue(String phone);
 }
 
