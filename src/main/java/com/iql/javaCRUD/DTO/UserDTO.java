@@ -1,7 +1,6 @@
 package com.iql.javaCRUD.DTO;
 
 import com.iql.javaCRUD.models.User;
-import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotNull;
 

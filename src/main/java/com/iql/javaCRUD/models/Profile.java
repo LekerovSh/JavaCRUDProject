@@ -1,7 +1,6 @@
 package com.iql.javaCRUD.models;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import javax.persistence.*;
 
 @Entity
