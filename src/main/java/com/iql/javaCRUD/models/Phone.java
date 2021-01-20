@@ -1,10 +1,14 @@
 package com.iql.javaCRUD.models;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "PHONES")
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Phone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

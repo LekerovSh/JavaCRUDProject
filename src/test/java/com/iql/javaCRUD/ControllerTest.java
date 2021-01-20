@@ -5,16 +5,13 @@ import com.iql.javaCRUD.services.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertEquals;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 public class ControllerTest extends AbstractTest {
-    @Autowired
-    private UserService userService;
 
     @Override
     @Before
@@ -23,23 +20,20 @@ public class ControllerTest extends AbstractTest {
     }
 
     @Test
-    @Transactional
-    public void createUser() throws Exception {
+    public void signup() throws Exception {
         String uri = "/users/signup";
         User requestedUser = new User();
-        requestedUser.setEmail("newmail@mail.ru");
-        requestedUser.setName("PidorChina");
-        requestedUser.setPassword("asdasd");
-        Long expectedId = userService.countAllUsers();
+        requestedUser.setEmail("newuser@mail.ru");
+        requestedUser.setName("newusername");
+        requestedUser.setPassword("newuserpass");
 
         String inputJson = super.mapToJson(requestedUser);
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
-            .contentType(MediaType.ALL).content(inputJson)).andReturn();
-
-        int status = mvcResult.getResponse().getStatus();
-        assertEquals(200,  status);
+        MvcResult mvcResult = mvc.perform(post(uri)
+                .contentType(APPLICATION_JSON_UTF8).content(inputJson)).andReturn();
 
         String content = mvcResult.getResponse().getContentAsString();
-        System.out.println(content);
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(200,  status);
     }
+
 }

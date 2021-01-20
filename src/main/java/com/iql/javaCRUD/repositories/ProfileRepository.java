@@ -11,5 +11,6 @@ import java.util.List;
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
     List<Profile> findByAge(int age);
     List<Profile> findByIncGreaterThan(int id);
+    boolean existsByUserEmail(String user_email);
 }
 

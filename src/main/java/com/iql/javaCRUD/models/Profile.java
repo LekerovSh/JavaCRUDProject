@@ -1,9 +1,13 @@
 package com.iql.javaCRUD.models;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "PROFILES")
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

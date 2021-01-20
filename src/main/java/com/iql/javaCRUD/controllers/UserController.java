@@ -1,19 +1,19 @@
 package com.iql.javaCRUD.controllers;
 
 import com.iql.javaCRUD.DTO.UserDTO;
-import com.iql.javaCRUD.repositories.UserRepository;
 import com.iql.javaCRUD.services.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/users")
@@ -21,26 +21,14 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserService userService;
 
-    @GetMapping("/say")
-    public String say() {
-        return "chlenn";
-    }
-
-    // TODO: 19.01.21  DONE
-    //consumes = MediaType.APPLICATION_JSON_VALUE, path=
-    @PostMapping("/signup")
-//    @ApiOperation(value = "Create User", response = ResponseEntity.class)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/signup")
+    @ApiOperation(value = "Create User", response = ResponseEntity.class)
     public ResponseEntity signup(@RequestBody UserDTO userDTO) {
-        System.out.println("CHLEN");
         return userService.signup(userDTO.toUser());
     }
 
-    // TODO: 19.01.21 DONE
     @PostMapping("/signin")
     @ApiOperation(value = "Login User", response = ResponseEntity.class)
     public ResponseEntity signin(
@@ -49,23 +37,28 @@ public class UserController {
         return userService.signin(email, password);
     }
 
-    // TODO: 19.01.21 DONE
     @ApiImplicitParam(name = "X-Auth-Token", value = "Access Token", required = true, paramType = "header")
-    @PatchMapping("/change-email")
+    @PatchMapping("/update-email")
     public ResponseEntity updateEmail(
                         @RequestParam String emailOld,
                         @RequestParam String emailNew) {
-        return userService.changeEmail(emailOld, emailNew);
+        return userService.updateEmail(emailOld, emailNew);
     }
 
-    // TODO: 19.01.21 DONE
     @ApiImplicitParam(name = "X-Auth-Token", value = "Access Token", required = true, paramType = "header")
-    @DeleteMapping(value = "/{email}")
-    public ResponseEntity delete(@ApiParam("Email") @PathVariable String email) {
-        return userService.delete(email);
+    @DeleteMapping
+    public ResponseEntity delete(
+            HttpServletRequest httpServletRequest) {
+        return userService.delete((String) httpServletRequest.getAttribute("user_email"));
     }
 
-    // TODO: 19.01.21 DONE
+    @GetMapping("/all")
+    public ResponseEntity allUsers(
+            @RequestParam String page,
+            @RequestParam String size) {
+        return userService.allUsers(Integer.parseInt(page), Integer.parseInt(size));
+    }
+
     @ApiImplicitParam(name = "X-Auth-Token", value = "Access Token", required = true, paramType = "header")
     @GetMapping("/filter/{age}")
     public ResponseEntity filterByAge(
@@ -75,21 +68,21 @@ public class UserController {
 
     @ApiImplicitParam(name = "X-Auth-Token", value = "Access Token", required = true, paramType = "header")
     @GetMapping("/filter-name/{name}")
-    public List<String> filterByName(
+    public ResponseEntity filterByName(
             @ApiParam("Name") @PathVariable String name) {
         return userService.filterByName(name);
     }
 
     @ApiImplicitParam(name = "X-Auth-Token", value = "Access Token", required = true, paramType = "header")
     @GetMapping("/filter-email/{email}")
-    public String filterByEmail(
+    public ResponseEntity filterByEmail(
             @ApiParam("Email") @PathVariable String email) {
         return userService.filterByEmail(email);
     }
 
     @ApiImplicitParam(name = "X-Auth-Token", value = "Access Token", required = true, paramType = "header")
     @GetMapping("/filter-phone/{phone}")
-    public String filterByPhone(
+    public ResponseEntity filterByPhone(
             @ApiParam("Phone") @PathVariable String phone) {
         return userService.filterByPhone(phone);
     }

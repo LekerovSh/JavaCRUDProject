@@ -22,14 +22,13 @@ public class PhoneController {
 
     @ApiImplicitParam(name = "X-Auth-Token", value = "Access Token", required = true, paramType = "header")
     @PostMapping(path="/create")
-    public void create(HttpServletRequest httpServletRequest, @ApiParam("value") @RequestParam String value) {
-        phoneService.create(value, (String) httpServletRequest.getAttribute("user_email"));
+    public ResponseEntity create(HttpServletRequest httpServletRequest, @ApiParam("value") @RequestParam String value) {
+        return phoneService.create(value, (String) httpServletRequest.getAttribute("user_email"));
     }
 
     @ApiImplicitParam(name = "X-Auth-Token", value = "Access Token", required = true, paramType = "header")
     @DeleteMapping(value = "/{value}")
     public ResponseEntity delete(@ApiParam("value") @PathVariable String value) {
-        phoneService.delete(value);
-        return new ResponseEntity(HttpStatus.OK);
+        return phoneService.delete(value);
     }
 }
